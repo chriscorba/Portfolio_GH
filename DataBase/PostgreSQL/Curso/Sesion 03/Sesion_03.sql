@@ -440,8 +440,8 @@ SELECT * FROM rrhh.ciudad;
 DO $$
 	BEGIN
 		 INSERT INTO rrhh.personas(PrimerNombre,SegundoNombre,ApellidoPaterno,ApellidoMaterno,IdSexo,IdTipoDocumento,NumeroDocumento,CorreoElectronico,Telefono,IdCiudad,Direccion)
-		                    VALUES('Genaro','Leonel','Campos','Carmen',1,1,'12345678','gleonelcamposc@gmail.com','964114162',1,'Manzanilla 241 - Cercado')/*,
-		  ('FAbiola','leona','Carmona', 'Candelñaria',2,1,'12345677','Fabiola@gmail.com','964114163',1,'Ica 241 - Oriente'),
+		                    VALUES('Genaro','Leonel','Campos','Carmen',1,1,'12345678','gleonelcamposc@gmail.com','964114162',1,'Manzanilla 241 - Cercado'),
+		  ('Fabiola','leona','Carmona', 'Candelñaria',2,1,'12345677','Fabiola@gmail.com','964114163',1,'Ica 241 - Oriente'),
 		  ('Marco ','Antonio','Canchos', 'Rodriguez',1,1,'12345676','Marco@gmail.com','964114164',1,'Chiclayo 259 - Sur'),
 		  ('carlo','Luis','Flores', 'Yuto',1,1,'12345675','Jose@gmail.com','964114169',1,'CHincha Alta 214'),
 		  ('Liz','Janet','Silvera', 'Flores',1,1,'12345674','Liz@gmail.com','964114161',1,'Cachiche Ica 698'),
@@ -450,13 +450,34 @@ DO $$
 		  ('Florinda','messa','Campos', 'Carmen',1,1,'12345671','Raquel@gmail.com','964114166',1,'Cañete 987'),
 		  ('Flavio','Leoncio','Rodriguez', 'Tueros',1,1,'12345670','Blanca@gmail.com','964114111',1,'Tumbes 64'),
 		  ('Norma','luz','Cardenas', 'Carmen',1,1,'12345668','Mayumi@gmail.com','964114122',1,'Ilo 874')
-		  */ON CONFLICT (NumeroDocumento) DO NOTHING;
+		  ON CONFLICT (NumeroDocumento) DO NOTHING;
 		  RAISE NOTICE 'Personas Insertados';
 END $$;
 
+-- Verificar si existen duplicados previamente
+SELECT NumeroDocumento,
+	   COUNT(*)
+FROM rrhh.personas
+GROUP BY NumeroDocumento
+HAVING COUNT(*) > 1;
+
+-- Verifica la estructura de la tabla
+SELECT
+		tc.constraint_name,
+		tc.constraint_type,
+		kcu.column_name
+FROM information_schema.table_constraints tc
+JOIN information_schema.key_column_usage kcu
+	 ON tc.constraint_name = kcu.constraint_name
+WHERE tc.table_schema = 'rrhh'
+AND tc.table_name = 'personas';
+
+-- Poner restricción de unicidad en el campo NumeroDocumento
+ALTER TABLE rrhh.personas
+ADD CONSTRAINT uq_personas_numerodocumento
+UNIQUE (NumeroDocumento);
 
 
-select * from rrhh.sexo
 /*
 ERROR:  no hay restricción única o de exclusión que coincida con la especificación ON CONFLICT
 CONTEXT:  sentencia SQL: «INSERT INTO rrhh.personas(PrimerNombre,SegundoNombre,
@@ -466,7 +487,7 @@ CONTEXT:  sentencia SQL: «INSERT INTO rrhh.personas(PrimerNombre,SegundoNombre,
 								   Telefono,IdCiudad,Direccion
 								   )
 	VALUES('Genaro','Leonel','Campos', 'Carmen',1,1,'12345678','gleonelcamposc@gmail.com','964114162',1,'Manzanilla 241 - Cercado'),
-		  ('FAbiola','leona','Carmona', 'Candelñaria',2,1,'12345677','Fabiola@gmail.com','964114163',1,'Ica 241 - Oriente'),
+		  ('Fabiola','leona','Carmona', 'Candelñaria',2,1,'12345677','Fabiola@gmail.com','964114163',1,'Ica 241 - Oriente'),
 		  ('Marco ','Antonio','Canchos', 'Rodriguez',1,1,'12345676','Marco@gmail.com','964114164',1,'Chiclayo 259 - Sur'),
 		  ('carlo','Luis','Flores', 'Yuto',1,1,'12345675','Jose@gmail.com','964114169',1,'CHincha Alta 214'),
 		  ('Liz','Janet','Silvera', 'Flores',1,1,'12345674','Liz@gmail.com','964114161',1,'Cachiche Ica 698'),
@@ -491,7 +512,10 @@ SQL state: 42P10
 
 -- Visualizar los datos Personas
 SELECT * FROM rrhh.personas;
-
+UPDATE rrhh.personas
+SET NumeroDocumento = '48986523'
+WHERE IdPersona = 2
+;
 
 
 SELECT * FROM rrhh.empleados

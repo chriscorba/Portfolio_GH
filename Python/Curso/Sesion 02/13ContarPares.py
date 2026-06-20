@@ -1,13 +1,18 @@
 #El programa cuenta los numeros pares del 1 al 250
 
 contador = 0
-#El ciclo for recorre los numeros del 1 al 250 y verifica si cada numero es par utilizando el operador modulo (%). Si el numero es par, se incrementa el contador en 1. Al final, se imprime la cantidad de numeros pares encontrados.
+sumaPares = 0
+print("Los numeros pares del 1 al 250...")
+print("=" * 40)  # Línea separadora
+
+#Ciclo for para recorrer los numeros del 1 al 250
 for numero in range(1, 251):
-    #El operador modulo (%) devuelve el resto de la division entre el numero y 2. Si el resultado es 0, significa que el numero es divisible por 2 y por lo tanto es par.   
-    if numero % 2 == 0:
-        #Si el numero es par, se incrementa el contador en 1.
-        contador += 1
-    print(numero, end=" ")
-#Finalmente, se imprime el resultado de la cantidad de numeros pares encontrados del 1 al 250.  
-print("\n" + "=" * 50)
-print("La cantidad de numeros pares del 1 al 250 es:", contador)
+    if numero % 2 == 0: #verificamos si el numero es par
+        contador = contador + 1
+        sumaPares = sumaPares + numero
+        print(numero, end=" ") # Mostrar los numeros pares
+
+print("\n" + "-" * 40) # Línea separadora
+print(f"Total de numeros pares entre el 1 y el 250: {contador}")
+print(f"Suma de los numeros pares entre el 1 y el 250: {sumaPares}")
+print("¡Programa terminado!")

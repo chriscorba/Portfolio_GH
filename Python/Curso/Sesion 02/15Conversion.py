@@ -8,21 +8,23 @@ while True:
 
     opcion = input("Elige una opción: ")
 
-    if opcion == "3":
-        print("Programa finalizado.")
-        break
-
     try:
-        dolares = float(input("Ingresa la cantidad de dólares: "))
+        if opcion == "3":
+            print("Programa finalizado.")
+            break      
 
         if opcion == "1":
-            tipo_cambio = float(input("Ingresa el tipo de cambio a Soles: "))
-            resultado = dolares * tipo_cambio
+            # Pedimos la cantidad de dolares
+            dolares = float(input("Ingresa la cantidad de dólares: "))
+            #tipo_cambio = float(input("Ingresa el tipo de cambio a Soles: "))
+            resultado = dolares * 3.50
             print("Equivale a", resultado, "Soles")
 
         elif opcion == "2":
-            tipo_cambio = float(input("Ingresa el tipo de cambio a Pesos Mexicanos: "))
-            resultado = dolares * tipo_cambio
+            # Pedimos la cantidad de dolares
+            dolares = float(input("Ingresa la cantidad de dólares: "))
+            #tipo_cambio = float(input("Ingresa el tipo de cambio a Pesos Mexicanos: "))
+            resultado = dolares * 19.50
             print("Equivale a", resultado, "Pesos Mexicanos")
 
         else:

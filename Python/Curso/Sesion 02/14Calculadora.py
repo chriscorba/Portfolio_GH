@@ -46,5 +46,5 @@ while True: #Bucle infinito para mostrar el menú y realizar operaciones hasta q
 
     except Exception as e:
         print("\n""Ocurrió un error:", e)
-    print("\n""Gracias por usar la calculadora.")
+    print("\n""¡Gracias por usar la calculadora!")
     print("\n")    
